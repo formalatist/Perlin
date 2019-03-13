@@ -22,7 +22,7 @@ public abstract class Perlin<GradientType> {
    251,34,242,193,238,210,144,12,191,179,162,241,81,51,145,235,249,14,239,107,
    49,192,214,31,181,199,106,157,184,84,204,176,115,121,50,45,127,4,150,254,
    138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180};
-
+    
 	private GradientType[] gradients;
 	//Function that performs the dot product (inner product) of two 3D vectors
 	//where one of the vectors is stored in the GradientType type.
