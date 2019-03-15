@@ -7,7 +7,8 @@ public abstract class Perlin<GradientType> {
 	//we'll get hard edges.
 	private Func<double, double> SmoothingFunction;
 
-	internal int[] permuatationTable;
+	//PermutationTable, shortened for readability
+	internal int[] PT;
 	//the defaultPermutationTable is 512 ints long and an contains values 0..255
 	private static int[] defaultPermutationTable = {151,160,137,91,90,15,
    131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
@@ -32,21 +33,23 @@ public abstract class Perlin<GradientType> {
 		this.gradients = gradients;
 		this.Dot = dot;
 		this.SmoothingFunction = smoothingFunction;
-		permuatationTable = defaultPermutationTable;
+		PT = defaultPermutationTable;
 	}
 
 	public double Noise(double x, double y = 0.5d, double z = 0.5d) {
 		//determine what cube we are in
-		int cubeX = (int)x & permuatationTable.Length/2;
-		int cubeY = (int)y & permuatationTable.Length/2;
-		int cubeZ = (int)z & permuatationTable.Length/2;
+		int cubeX = (int)x & PT.Length/2;
+		int cubeY = (int)y & PT.Length/2;
+		int cubeZ = (int)z & PT.Length/2;
 
+		//Find the gradients for the 8 corners of the cube
+		int BottomLeft = PT[PT[PT[cubeX]]];
 
 		return 0;
 	}
 
 	public void SetPermutationTable(int[] newPermutationTable) {
-		permuatationTable = newPermutationTable;
+		PT = newPermutationTable;
 	}
 
 	private static double LinearlyInterpolate(double valueA, double valueB, double t) {
