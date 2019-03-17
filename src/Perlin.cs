@@ -62,16 +62,16 @@ public abstract class Perlin<GradientType> {
 
 		/*Find the gradients for the 8 corners of the cube
 			
-			y  z		*V011---------*V111
-			| /			|\            |\
-			|/			| \           | \
-			*----x		|  \          |  \
-						|   *V010---------*V110
-		  			V001*---|---------*V101 
-						 \  |          \  |
-						  \ |           \ |
-						   \|            \|
-						V000*-------------*V100
+					*V011---------*V111
+					|\            |\
+					| \           | \
+					|  \          |  \
+					|   *V010---------*V110
+				V001*---|---------*V101 
+					 \  |          \  |
+					  \ |           \ |
+					   \|            \|
+					V000*-------------*V100
 		**/
 		int XIndex = PT[cubeX] + cubeY;
 		int X1Index = PT[cubeX+1] + cubeY;
