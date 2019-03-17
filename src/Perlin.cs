@@ -49,16 +49,12 @@ public abstract class Perlin<GradientType> {
 		PT = defaultPermutationTable;
 	}
 
+	//Standard Perlin Noise function, returns smooth noise in the range (-1,1)
 	public double Noise(double x, double y = 0.5d, double z = 0.5d) {
 		//determine what cube we are in
-		//NOTE: PT.Length is assumed to be 2^N
 		int cubeX = ((int)x) & (PT.Length/2 - 1);
 		int cubeY = ((int)y) & (PT.Length/2 - 1);
 		int cubeZ = ((int)z) & (PT.Length/2 - 1);
-
-		// Console.WriteLine(PT.Length);
-		// Console.WriteLine(cubeX);
-		// Console.WriteLine(x);
 
 		/*Find the gradients for the 8 corners of the cube
 			
@@ -116,14 +112,55 @@ public abstract class Perlin<GradientType> {
 		double ZZeroPlaneVal = LinearlyInterpolate(V000V100Val, V010V110Val, smoothedY);
 		double ZOnePlaneVal = LinearlyInterpolate(V001V101Val, V011V111Val, smoothedY);
 
-		double noiseValue = LinearlyInterpolate(ZZeroPlaneVal, ZOnePlaneVal, smoothedZ);
-		return noiseValue;
+		return LinearlyInterpolate(ZZeroPlaneVal, ZOnePlaneVal, smoothedZ);
+	}
+
+	//Tile Perlin Noise function, the noise is tiled over a region of tileRegion^3
+	public double NoiseTiled(double x, double y = 0.5d, double z = 0.5d, int tileRegion = 1) {
+		int cubeX = ((int)x) & (PT.Length/2 - 1);
+		int cubeY = ((int)y) & (PT.Length/2 - 1);
+		int cubeZ = ((int)z) & (PT.Length/2 - 1);
+		int XIndex = PT[cubeX%tileRegion] + cubeY;
+		int X1Index = PT[(cubeX+1)%tileRegion] + cubeY;
+		GradientType V000 = gradients[PT[(PT[XIndex%tileRegion] + cubeZ)%tileRegion] % gradients.Length];
+		GradientType V001 = gradients[PT[(PT[XIndex%tileRegion] + cubeZ + 1)%tileRegion] % gradients.Length];
+		GradientType V010 = gradients[PT[(PT[(XIndex+1)%tileRegion] + cubeZ)%tileRegion] % gradients.Length];
+		GradientType V011 = gradients[PT[(PT[(XIndex+1)%tileRegion] + cubeZ + 1)%tileRegion] % gradients.Length];
+		GradientType V100 = gradients[PT[(PT[X1Index%tileRegion] + cubeZ)%tileRegion] % gradients.Length];
+		GradientType V101 = gradients[PT[(PT[X1Index%tileRegion] + cubeZ + 1)%tileRegion] % gradients.Length];
+		GradientType V110 = gradients[PT[(PT[(X1Index+1)%tileRegion] + cubeZ)%tileRegion] % gradients.Length];
+		GradientType V111 = gradients[PT[(PT[(X1Index+1)%tileRegion] + cubeZ + 1)%tileRegion] % gradients.Length];
+		x -= Math.Floor(x);
+		y -= Math.Floor(y);
+		z -= Math.Floor(z);
+		double V000Dot = Dot(V000, x, y, z);
+		double V001Dot = Dot(V001, x, y, z-1);
+		double V010Dot = Dot(V010, x, y-1, z);
+		double V011Dot = Dot(V011, x, y-1, z-1);
+		double V100Dot = Dot(V100, x-1, y, z);
+		double V101Dot = Dot(V101, x-1, y, z-1);
+		double V110Dot = Dot(V110, x-1, y-1, z);
+		double V111Dot = Dot(V111, x-1, y-1, z-1);
+		double smoothedX = SmoothingFunction(x);
+		double smoothedY = SmoothingFunction(y);
+		double smoothedZ = SmoothingFunction(z);
+		double V000V100Val = LinearlyInterpolate(V000Dot, V100Dot, smoothedX);
+		double V001V101Val = LinearlyInterpolate(V001Dot, V101Dot, smoothedX);
+		double V010V110Val = LinearlyInterpolate(V010Dot, V110Dot, smoothedX);
+		double V011V111Val = LinearlyInterpolate(V011Dot, V111Dot, smoothedX);
+		double ZZeroPlaneVal = LinearlyInterpolate(V000V100Val, V010V110Val, smoothedY);
+		double ZOnePlaneVal = LinearlyInterpolate(V001V101Val, V011V111Val, smoothedY);
+		return LinearlyInterpolate(ZZeroPlaneVal, ZOnePlaneVal, smoothedZ);
 	}
 
 	//use a different permutationTable then the provided default.
 	//This will change the look of the noise
 	public void SetPermutationTable(int[] newPermutationTable) {
-		PT = newPermutationTable;
+		//make sure the new PT has Length = 2^N (this property is 
+		//used in the Noise function)
+		if((newPermutationTable.Length & newPermutationTable.Length-1) == 0) {
+			PT = newPermutationTable;
+		}
 	}
 
 	private static double LinearlyInterpolate(double valueA, double valueB, double t) {
