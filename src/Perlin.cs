@@ -67,11 +67,11 @@ public abstract class Perlin<GradientType> {
 			|/			| \           | \
 			*----x		|  \          |  \
 						|   *V010---------*V110
-		  		    V001*---|---------*V101 
+		  			V001*---|---------*V101 
 						 \  |          \  |
 						  \ |           \ |
 						   \|            \|
-					    V000*-------------*V100
+						V000*-------------*V100
 		**/
 		int XIndex = PT[cubeX] + cubeY;
 		int X1Index = PT[cubeX+1] + cubeY;
