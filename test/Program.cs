@@ -8,11 +8,14 @@ public class Program {
 
 		var perlin = new Perlin();
 
-		Bitmap bitmap = new Bitmap(512, 512);
+		int size = 256;
+		Bitmap bitmap = new Bitmap(size, size);
 
-		for(int x = 0; x < 512; x++) {
-			for(int y = 0; y < 512; y++) {
-				int color = (int)(128*(1d+perlin.Noise((double)x/64, (double)y/64)));
+		// System.Diagnostics.Debugger.Launch();
+
+		for(int x = 0; x < size; x++) {
+			for(int y = 0; y < size; y++) {
+				int color = (int)(128*(1d+perlin.Noise((double)x/2, (double)y/2)));
 				if(color < 0) {
 					Console.WriteLine(color);
 					color = 0;
