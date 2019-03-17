@@ -108,15 +108,15 @@ public abstract class Perlin<GradientType> {
 		double smoothedZ = SmoothingFunction(z);
 
 		//linearly interpolate the dot products
-		double V000V100Val = LinearlyInterpolate(V000Dot, V100Dot, x);
-		double V001V101Val = LinearlyInterpolate(V001Dot, V101Dot, x);
-		double V010V110Val = LinearlyInterpolate(V010Dot, V110Dot, x);
-		double V011V111Val = LinearlyInterpolate(V011Dot, V111Dot, x);
+		double V000V100Val = LinearlyInterpolate(V000Dot, V100Dot, smoothedX);
+		double V001V101Val = LinearlyInterpolate(V001Dot, V101Dot, smoothedX);
+		double V010V110Val = LinearlyInterpolate(V010Dot, V110Dot, smoothedX);
+		double V011V111Val = LinearlyInterpolate(V011Dot, V111Dot, smoothedX);
 
-		double ZZeroPlaneVal = LinearlyInterpolate(V000V100Val, V010V110Val, y);
-		double ZOnePlaneVal = LinearlyInterpolate(V001V101Val, V011V111Val, y);
+		double ZZeroPlaneVal = LinearlyInterpolate(V000V100Val, V010V110Val, smoothedY);
+		double ZOnePlaneVal = LinearlyInterpolate(V001V101Val, V011V111Val, smoothedY);
 
-		double noiseValue = LinearlyInterpolate(ZZeroPlaneVal, ZOnePlaneVal, z);
+		double noiseValue = LinearlyInterpolate(ZZeroPlaneVal, ZOnePlaneVal, smoothedZ);
 		return noiseValue;
 	}
 
