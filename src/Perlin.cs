@@ -47,27 +47,56 @@ public abstract class Perlin<GradientType> {
 			y  z		*V011---------*V111
 			| /			|\            |\
 			|/			| \           | \
-			*-----x		|  \          |  \
+			*----x		|  \          |  \
 						|   *V010---------*V110
 		  		    V001*---|---------*V101 
 						 \  |          \  |
 						  \ |           \ |
 						   \|            \|
 					    V000*-------------*V100
-
 		**/
-		int V000 = PT[PT[PT[cubeX]]];
-		int V001 = PT[PT[PT[cubeX]]];
-		int V000 = PT[PT[PT[cubeX]]];
-		int V000 = PT[PT[PT[cubeX]]];
-		int V000 = PT[PT[PT[cubeX]]];
-		int V000 = PT[PT[PT[cubeX]]];
-		int V000 = PT[PT[PT[cubeX]]];
-		int V000 = PT[PT[PT[cubeX]]];
+		int XIndex = PT[cubeX] + cubeY;
+		int X1Index = PT[cubeX+1] + cubeY;
+		//indexes for the gradients
+		GradientType V000 = gradients[PT[PT[XIndex] + cubeZ]];
+		GradientType V001 = gradients[PT[PT[XIndex] + cubeZ + 1]];
+		GradientType V010 = gradients[PT[PT[XIndex+1] + cubeZ]];
+		GradientType V011 = gradients[PT[PT[XIndex+1] + cubeZ + 1]];
+		GradientType V100 = gradients[PT[PT[X1Index] + cubeZ]];
+		GradientType V101 = gradients[PT[PT[X1Index] + cubeZ + 1]];
+		GradientType V110 = gradients[PT[PT[X1Index+1] + cubeZ]];
+		GradientType V111 = gradients[PT[PT[X1Index+1] + cubeZ + 1]];
+
+		//calculate the local x, y and z coordinates (0..1)
+		x -= Math.Floor(x);
+		y -= Math.Floor(y);
+		z -= Math.Floor(z);
+
+		//calculate dot products
+		double V000Dot = Dot(V000, x, y, z);
+		double V001Dot = Dot(V001, x, y, z-1);
+		double V010Dot = Dot(V010, x, y-1, z);
+		double V011Dot = Dot(V011, x, y-1, z-1);
+		double V100Dot = Dot(V100, x-1, y, z);
+		double V101Dot = Dot(V101, x-1, y, z-1);
+		double V110Dot = Dot(V110, x-1, y-1, z);
+		double V111Dot = Dot(V111, x-1, y-1, z-1);
+
+		//calculate smoothed x, y and z values. These are used to get
+		//a smoother interpolation between the dot products of the 
+		//gradients and local coords
+		double smoothedX = SmoothingFunction(x);
+		double smoothedY = SmoothingFunction(y);
+		double smoothedZ = SmoothingFunction(z);
+		
+		//linearly interpolate the dot products
+		LinearlyInterpolate()
 
 		return 0;
 	}
 
+	//use a different permutationTable then the provided default.
+	//This will change the look of the noise
 	public void SetPermutationTable(int[] newPermutationTable) {
 		PT = newPermutationTable;
 	}
