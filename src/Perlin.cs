@@ -42,8 +42,28 @@ public abstract class Perlin<GradientType> {
 		int cubeY = (int)y & PT.Length/2;
 		int cubeZ = (int)z & PT.Length/2;
 
-		//Find the gradients for the 8 corners of the cube
-		int BottomLeft = PT[PT[PT[cubeX]]];
+		/*Find the gradients for the 8 corners of the cube
+			
+			y  z		*V011---------*V111
+			| /			|\            |\
+			|/			| \           | \
+			*-----x		|  \          |  \
+						|   *V010---------*V110
+		  		    V001*---|---------*V101 
+						 \  |          \  |
+						  \ |           \ |
+						   \|            \|
+					    V000*-------------*V100
+
+		**/
+		int V000 = PT[PT[PT[cubeX]]];
+		int V001 = PT[PT[PT[cubeX]]];
+		int V000 = PT[PT[PT[cubeX]]];
+		int V000 = PT[PT[PT[cubeX]]];
+		int V000 = PT[PT[PT[cubeX]]];
+		int V000 = PT[PT[PT[cubeX]]];
+		int V000 = PT[PT[PT[cubeX]]];
+		int V000 = PT[PT[PT[cubeX]]];
 
 		return 0;
 	}
