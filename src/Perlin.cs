@@ -8,7 +8,7 @@ public abstract class Perlin<GradientType> {
 	private Func<double, double> SmoothingFunction;
 
 	//PermutationTable, shortened for readability
-	internal int[] PT;
+	protected int[] PT;
 	//the defaultPermutationTable is 512 ints long and an contains values 0..255
 	private static int[] defaultPermutationTable = {151,160,137,91,90,15,
    131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
@@ -151,6 +151,24 @@ public abstract class Perlin<GradientType> {
 		double ZZeroPlaneVal = LinearlyInterpolate(V000V100Val, V010V110Val, smoothedY);
 		double ZOnePlaneVal = LinearlyInterpolate(V001V101Val, V011V111Val, smoothedY);
 		return LinearlyInterpolate(ZZeroPlaneVal, ZOnePlaneVal, smoothedZ);
+	}
+
+	//creates noise combined of multiple noise values at different octaves
+	public double NoiseOctaves(double x, double y, double z, 
+		int numOctaves, double lacunarity = 2d, double persistence = 0.5d) {
+		double noiseValue = 0d;
+		double amp = 1d;
+		double freq = 1d;
+		double totalAmp = 0d;
+
+		for(int i = 0; i < numOctaves; i++) {
+			noiseValue += amp* Noise(x*freq, y*freq, z*freq);
+			totalAmp += amp;
+			amp *= persistence;
+			freq *= lacunarity;
+		}
+
+		return noiseValue/totalAmp;
 	}
 
 	//use a different permutationTable then the provided default.

@@ -17,20 +17,13 @@ public class Program {
 
 			for(int x = 0; x < size; x++) {
 				for(int y = 0; y < size; y++) {
-					int color = (int)(127*(1d+perlin.NoiseTiled((double)x/64, (double)z/64, (double)y/64, 3)));
-					// if(color < 0) {
-					// 	Console.WriteLine(color);
-					// 	color = 0;
-					// } else if(color > 255) {
-					// 	Console.WriteLine(color);
-					// 	color = 255;
-					// }
+					int color = (int)(80*(1d+perlin.NoiseOctaves((double)x/64, (double)y/64, (double)z/64, 6)));
+					
 					bitmap.SetPixel(x, y, Color.FromArgb(color, color, color));
 				 }
 			}
-			bitmap.Save("testTiled" + z + ".png");
+			bitmap.Save("octaves" + z + ".png");
 		}
-
 		Console.ReadLine();
 	}
 
