@@ -38,9 +38,9 @@ public abstract class Perlin<GradientType> {
 
 	public double Noise(double x, double y = 0.5d, double z = 0.5d) {
 		//determine what cube we are in
-		int cubeX = (int)x & PT.Length/2;
-		int cubeY = (int)y & PT.Length/2;
-		int cubeZ = (int)z & PT.Length/2;
+		int cubeX = ((int)x) & PT.Length/2;
+		int cubeY = ((int)y) & PT.Length/2;
+		int cubeZ = ((int)z) & PT.Length/2;
 
 		/*Find the gradients for the 8 corners of the cube
 			
@@ -58,14 +58,14 @@ public abstract class Perlin<GradientType> {
 		int XIndex = PT[cubeX] + cubeY;
 		int X1Index = PT[cubeX+1] + cubeY;
 		//indexes for the gradients
-		GradientType V000 = gradients[PT[PT[XIndex] + cubeZ]];
-		GradientType V001 = gradients[PT[PT[XIndex] + cubeZ + 1]];
-		GradientType V010 = gradients[PT[PT[XIndex+1] + cubeZ]];
-		GradientType V011 = gradients[PT[PT[XIndex+1] + cubeZ + 1]];
-		GradientType V100 = gradients[PT[PT[X1Index] + cubeZ]];
-		GradientType V101 = gradients[PT[PT[X1Index] + cubeZ + 1]];
-		GradientType V110 = gradients[PT[PT[X1Index+1] + cubeZ]];
-		GradientType V111 = gradients[PT[PT[X1Index+1] + cubeZ + 1]];
+		GradientType V000 = gradients[PT[PT[XIndex] + cubeZ] % gradients.Length];
+		GradientType V001 = gradients[PT[PT[XIndex] + cubeZ + 1] % gradients.Length];
+		GradientType V010 = gradients[PT[PT[XIndex+1] + cubeZ] % gradients.Length];
+		GradientType V011 = gradients[PT[PT[XIndex+1] + cubeZ + 1] % gradients.Length];
+		GradientType V100 = gradients[PT[PT[X1Index] + cubeZ] % gradients.Length];
+		GradientType V101 = gradients[PT[PT[X1Index] + cubeZ + 1] % gradients.Length];
+		GradientType V110 = gradients[PT[PT[X1Index+1] + cubeZ] % gradients.Length];
+		GradientType V111 = gradients[PT[PT[X1Index+1] + cubeZ + 1] % gradients.Length];
 
 		//calculate the local x, y and z coordinates (0..1)
 		x -= Math.Floor(x);
@@ -88,11 +88,18 @@ public abstract class Perlin<GradientType> {
 		double smoothedX = SmoothingFunction(x);
 		double smoothedY = SmoothingFunction(y);
 		double smoothedZ = SmoothingFunction(z);
-		
-		//linearly interpolate the dot products
-		LinearlyInterpolate()
 
-		return 0;
+		//linearly interpolate the dot products
+		double V000V100Val = LinearlyInterpolate(V000Dot, V100Dot, x);
+		double V001V101Val = LinearlyInterpolate(V001Dot, V101Dot, x);
+		double V010V110Val = LinearlyInterpolate(V010Dot, V110Dot, x);
+		double V011V111Val = LinearlyInterpolate(V011Dot, V111Dot, x);
+
+		double ZZeroPlaneVal = LinearlyInterpolate(V000V100Val, V010V110Val, y);
+		double ZOnePlaneVal = LinearlyInterpolate(V001V101Val, V011V111Val, y);
+
+		double noiseValue = LinearlyInterpolate(ZZeroPlaneVal, ZOnePlaneVal, z);
+		return noiseValue;
 	}
 
 	//use a different permutationTable then the provided default.
@@ -116,7 +123,11 @@ public abstract class Perlin<GradientType> {
 
 public class Perlin : Perlin<Perlin.Vector3> {
 
-	private static Vector3[] gradients = {new Vector3(0d,0d,0d)};
+	private static Vector3[] gradients = {new Vector3(1,1,0), new Vector3(-1,1,-0), 
+		new Vector3(1,-1,0), new Vector3(-1,-1,0), new Vector3(1,0,1), 
+		new Vector3(-1,0,1), new Vector3(1,0,-1), new Vector3(-1,0,-1), 
+		new Vector3(0,1,1), new Vector3(0,-1,1), new Vector3(0,1,-1), 
+		new Vector3(0,-1,-1)};
 
 	public Perlin(Func<double, double> smoothingFunction) : base(gradients, Dot, smoothingFunction) {
 		Console.WriteLine("Perlin<int>");
