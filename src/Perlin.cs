@@ -116,20 +116,22 @@ public abstract class Perlin<GradientType> {
 	}
 
 	//Tile Perlin Noise function, the noise is tiled over a region of tileRegion^3
-	public double NoiseTiled(double x, double y = 0.5d, double z = 0.5d, int tileRegion = 1) {
+	public double NoiseTiled(double x, double y = 0.5d, double z = 0.5d, int tileRegion = 2) {
 		int cubeX = ((int)x) & (PT.Length/2 - 1);
 		int cubeY = ((int)y) & (PT.Length/2 - 1);
 		int cubeZ = ((int)z) & (PT.Length/2 - 1);
-		int XIndex = PT[cubeX%tileRegion] + cubeY;
-		int X1Index = PT[(cubeX+1)%tileRegion] + cubeY;
-		GradientType V000 = gradients[PT[(PT[XIndex%tileRegion] + cubeZ)%tileRegion] % gradients.Length];
-		GradientType V001 = gradients[PT[(PT[XIndex%tileRegion] + cubeZ + 1)%tileRegion] % gradients.Length];
-		GradientType V010 = gradients[PT[(PT[(XIndex+1)%tileRegion] + cubeZ)%tileRegion] % gradients.Length];
-		GradientType V011 = gradients[PT[(PT[(XIndex+1)%tileRegion] + cubeZ + 1)%tileRegion] % gradients.Length];
-		GradientType V100 = gradients[PT[(PT[X1Index%tileRegion] + cubeZ)%tileRegion] % gradients.Length];
-		GradientType V101 = gradients[PT[(PT[X1Index%tileRegion] + cubeZ + 1)%tileRegion] % gradients.Length];
-		GradientType V110 = gradients[PT[(PT[(X1Index+1)%tileRegion] + cubeZ)%tileRegion] % gradients.Length];
-		GradientType V111 = gradients[PT[(PT[(X1Index+1)%tileRegion] + cubeZ + 1)%tileRegion] % gradients.Length];
+		int XIndex = PT[cubeX%tileRegion] + cubeY%tileRegion;
+		int X1Index = PT[(cubeX+1)%tileRegion] + cubeY%tileRegion;
+		int XIndex1 = PT[cubeX%tileRegion] + (cubeY+1)%tileRegion;
+		int X1Index1 = PT[(cubeX+1)%tileRegion] + (cubeY+1)%tileRegion;
+		GradientType V000 = gradients[PT[PT[XIndex] + cubeZ%tileRegion] % gradients.Length];
+		GradientType V001 = gradients[PT[PT[XIndex] + (cubeZ + 1)%tileRegion] % gradients.Length];
+		GradientType V010 = gradients[PT[PT[XIndex1] + cubeZ%tileRegion] % gradients.Length];
+		GradientType V011 = gradients[PT[PT[XIndex1] + (cubeZ + 1)%tileRegion] % gradients.Length];
+		GradientType V100 = gradients[PT[PT[X1Index] + cubeZ%tileRegion] % gradients.Length];
+		GradientType V101 = gradients[PT[PT[X1Index] + (cubeZ + 1)%tileRegion] % gradients.Length];
+		GradientType V110 = gradients[PT[PT[X1Index1] + cubeZ%tileRegion] % gradients.Length];
+		GradientType V111 = gradients[PT[PT[X1Index1] + (cubeZ + 1)%tileRegion] % gradients.Length];
 		x -= Math.Floor(x);
 		y -= Math.Floor(y);
 		z -= Math.Floor(z);
@@ -154,8 +156,8 @@ public abstract class Perlin<GradientType> {
 	}
 
 	//creates noise combined of multiple noise values at different octaves
-	public double NoiseOctaves(double x, double y, double z, 
-		int numOctaves, double lacunarity = 2d, double persistence = 0.5d) {
+	public double NoiseOctaves(double x, double y, double z = 0.5d, 
+		int numOctaves = 6, double lacunarity = 2d, double persistence = 0.5d) {
 		double noiseValue = 0d;
 		double amp = 1d;
 		double freq = 1d;
@@ -163,6 +165,24 @@ public abstract class Perlin<GradientType> {
 
 		for(int i = 0; i < numOctaves; i++) {
 			noiseValue += amp* Noise(x*freq, y*freq, z*freq);
+			totalAmp += amp;
+			amp *= persistence;
+			freq *= lacunarity;
+		}
+
+		return noiseValue/totalAmp;
+	}
+
+	//creates tiled noise with multiple octaves
+	public double NoiseTiledOctaves(double x, double y, double z, int tileRegion = 2,
+		int numOctaves = 6, double lacunarity = 2d, double persistence = 0.5d) {
+		double noiseValue = 0d;
+		double amp = 1d;
+		double freq = 1d;
+		double totalAmp = 0d;
+
+		for(int i = 0; i < numOctaves; i++) {
+			noiseValue += amp* NoiseTiled(x*freq, y*freq, z*freq, tileRegion);
 			totalAmp += amp;
 			amp *= persistence;
 			freq *= lacunarity;
