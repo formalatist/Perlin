@@ -5,7 +5,7 @@ This is a C# implementation of Perlins original noise algorithm. It gives contin
 This project was created because i needed a good Perlin noise class for art creation and since the algorithm is simple enough i decided to implement it myself.
  
 ## Screenshots
-![](/images/WorldMap image?raw=true "2D world map created using noise with multiple octaves")
+![](/images/WorldMap%20image?raw=true "2D world map created using noise with multiple octaves")
 
 ```C#
 Bitmap bitmap = new Bitmap(size, size);
