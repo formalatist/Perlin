@@ -6,8 +6,6 @@ public class Program {
 	public static void Main(string[] args) {
 		Console.WriteLine("test");
 
-		var perlin = new Perlin();
-
 		int size = 512;
 
 		// System.Diagnostics.Debugger.Launch();

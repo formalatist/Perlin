@@ -223,7 +223,6 @@ public class Perlin : Perlin<Perlin.Vector3> {
 		new Vector3(0,-1,-1)};
 
 	public Perlin(Func<double, double> smoothingFunction) : base(gradients, Dot, smoothingFunction) {
-		Console.WriteLine("Perlin<int>");
 	}
 
 	public Perlin() : this(SmoothToSCurve){}
