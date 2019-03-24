@@ -222,8 +222,7 @@ public class Perlin : Perlin<Perlin.Vector3> {
 		new Vector3(0,1,1), new Vector3(0,-1,1), new Vector3(0,1,-1), 
 		new Vector3(0,-1,-1)};
 
-	public Perlin(Func<double, double> smoothingFunction) : base(gradients, Dot, smoothingFunction) {
-	}
+	public Perlin(Func<double, double> smoothingFunction) : base(gradients, Dot, smoothingFunction) {}
 
 	public Perlin() : this(SmoothToSCurve){}
 
