@@ -10,22 +10,11 @@ public class Program {
 
 		// System.Diagnostics.Debugger.Launch();
 
-		// for(int z = 0; z < 1; z++) {
-		// 	for(int x = 0; x < size; x++) {
-		// 		for(int y = 0; y < size; y++) {
-		// 			int color = (int)(80*(1d+perlin.NoiseOctaves(
-		// 				(double)x/32,
-		// 				(double)y/32)));
-		// 			bitmap.SetPixel(x, y, Color.FromArgb(color, color, color));
-		// 		 }
-		// 	}
-		// 	bitmap.Save("octavesImage.png");
-		// }
-
 		CreateNoiseImage(size);
 		CreateNoiseOctavesImage(size);
 		CreateWorldMap(size);
 		CreateMixedColoredOctaves(size);
+		CreateNoiseTiledImage(size);
 		Console.ReadLine();
 	}
   
@@ -57,6 +46,22 @@ public class Program {
 			}
 		}
 		bitmap.Save("images/NoiseOctaves image.png");
+	}
+
+	private static void CreateNoiseTiledImage(int size) {
+		Bitmap bitmap = new Bitmap(size, size);
+		var perlin = new Perlin();
+		for(int x = 0; x < size; x++) {
+			for(int y = 0; y < size; y++) {
+				int color = (int)(80*(1d+perlin.NoiseTiled(
+					(double)x/32,
+					(double)y/32,
+					0.5d,
+					3)));
+				bitmap.SetPixel(x, y, Color.FromArgb(color, color, color));
+			}
+		}
+		bitmap.Save("images/NoiseTiled image.png");
 	}
 
 	private static void CreateWorldMap(int size) {
