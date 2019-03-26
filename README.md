@@ -24,7 +24,9 @@ bitmap.Save("images/WorldMap image.png");
 ```
 
 ## Features
-What makes your project stand out?
+The base Perlin class is generic over Gradient data types and Dot product implementations, this allows for b
+
+The provided subclass stores gradients as structs of doubles and performs dot product by component-wise multiplication.
 
 ## Code Example
 Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
