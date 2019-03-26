@@ -24,7 +24,7 @@ bitmap.Save("images/WorldMap image.png");
 ```
 
 ## Features
-The base Perlin class is generic over Gradient data types and Dot product implementations, this allows for b
+The base Perlin class is generic over Gradient data types and Dot product implementations. Noise functions are often used in performance critical applications where providing custom implementations for these are usefull. A different implementation of Gradient and Dot product can be found in 
 
 The provided subclass stores gradients as structs of doubles and performs dot product by component-wise multiplication.
 
