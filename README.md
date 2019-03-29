@@ -5,8 +5,10 @@ This is a C# implementation of Perlins original noise algorithm. It gives contin
 This project was created because i needed a good Perlin noise class for art creation and since the algorithm is simple enough i decided to implement it myself.
  
 ## Screenshots
+# Using 2d noise to create a "world map"
 ![](/images/WorldMap-image.png?raw=true "2D world map created using noise with multiple octaves.")
 
+Code for creating the above 2d map:
 ```C#
 Bitmap bitmap = new Bitmap(size, size);
 var perlin = new Perlin();
@@ -20,13 +22,46 @@ for(int x = 0; x < size; x++) {
 		bitmap.SetPixel(x, y, color);
 	}
 }
-bitmap.Save("images/WorldMap image.png");
-```
+bitmap.Save("images/WorldMap-image.png");
 
+Color GetColor = (color)=>{
+			if(color < 0.35d) {//water
+				return Color.FromArgb(60, 110, 200);
+			} else if(color < 0.45d) {	//shallow water
+				return Color.FromArgb(64, 104, 192);
+			} else if(color < 0.48d) { //sand
+				return Color.FromArgb(208, 207, 130);
+			} else if(color < 0.55d) { //grass
+				return Color.FromArgb(84, 150, 29);
+			} else if(color < 0.6d) { //forrest
+				return Color.FromArgb(61, 105, 22);
+			} else if(color < 0.7d) { //mountain
+				return Color.FromArgb(91, 68, 61);
+			} else if(color < 0.87d) { //high mountain
+				return Color.FromArgb(75, 58, 54);
+			} else { //snow
+				return Color.FromArgb(255, 254, 255);
+			}
+		};
+```
+# 3d noise being used to create a globe
 ![](/images/out.gif?raw=true "A 3d spinning globe, where light reflects of the ocean.")
 
+# Difference between Perlin noise and random values (1d)
+Random noise:
+![](/Random-noise1d.png?raw=true "250 random values.")
+Perlin noise:
+![](/Perlin-noise1d.png?raw=true "250 Perlin noise values")
+
+# Grayscale Perlin noise in 2d, 1 octave
+![](/Noise-image.png?raw=true "Grayscale 2d Perlin noise, one octave.")
+
+# Grayscale Perlin noise in 2d, 6 octaves
+![](/NoiseOctaves-image.png?raw=true "Grayscale 2d Perlin noise, 6 octaves.")
+
+
 ## Features
-The base Perlin class is generic over Gradient data types and Dot product implementations. Noise functions are often used in performance critical applications where providing custom implementations for these are usefull. A different implementation of Gradient and Dot product can be found in 
+The base Perlin class is generic over Gradient data types and Dot product implementations. Noise functions are often used in performance critical applications where providing custom implementations for these are usefull. A different implementation of Gradient and Dot product can be found in the *Original noise function* paper linked in Sources.
 
 The provided subclass stores gradients as structs of doubles and performs dot product by component-wise multiplication.
 

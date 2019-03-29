@@ -30,7 +30,7 @@ public class Program {
 				bitmap.SetPixel(x, y, Color.FromArgb(color, color, color));
 			}
 		}
-		bitmap.Save("images/Noise image.png");
+		bitmap.Save("images/Noise-image.png");
 	}
 
 	private static void CreateNoiseOctavesImage(int size) {
@@ -45,7 +45,7 @@ public class Program {
 				bitmap.SetPixel(x, y, Color.FromArgb(color, color, color));
 			}
 		}
-		bitmap.Save("images/NoiseOctaves image.png");
+		bitmap.Save("images/NoiseOctaves-image.png");
 	}
 
 	private static void CreateNoiseTiledImage(int size) {
@@ -61,7 +61,7 @@ public class Program {
 				bitmap.SetPixel(x, y, Color.FromArgb(color, color, color));
 			}
 		}
-		bitmap.Save("images/NoiseTiled image.png");
+		bitmap.Save("images/NoiseTiled-image.png");
 	}
 
 	private static void CreateWorldMap(int size) {
@@ -96,7 +96,7 @@ public class Program {
 				bitmap.SetPixel(x, y, color);
 			}
 		}
-		bitmap.Save("images/WorldMap image.png");
+		bitmap.Save("images/WorldMap-image.png");
 	}
 
 	private static void CreateMixedColoredOctaves(int size) {
@@ -114,6 +114,6 @@ public class Program {
 				bitmap.SetPixel(x, y, Color.FromArgb(colorRed, 20, colorBlue));
 			}
 		}
-		bitmap.Save("images/MixedColoredOctaves image.png");
+		bitmap.Save("images/MixedColoredOctaves-image.png");
 	}
 }
