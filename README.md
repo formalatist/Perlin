@@ -51,6 +51,7 @@ Color GetColor = (color)=>{
 Random noise:
 
 ![](/images/Random-noise1d.png?raw=true "250 random values.")
+
 Perlin noise:
 
 ![](/images/Perlin-noise1d.png?raw=true "250 Perlin noise values")
@@ -72,16 +73,25 @@ To use the noise functions you have to create an instance of the Perlin class. B
 ```C#
 Perlin perlin = new Perlin();
 
-//Standard noise, provide the x, y and z coordinate to sample the noise func. y and z are optional parameters.
+//Standard noise, provide the x, y and z coordinate to sample the noise func. 
+//y and z are optional parameters.
 double noise = perlin.Noise(x, y, z);
 
-//Creates noise that will seamlessly tile in all directions in all dimensions. tileRegion specifies the size of the region to "tile over", a larger value means it will take longer for the noise to repeat. y, z and tileRedion are optional parameters.
+//Creates noise that will seamlessly tile in all directions in all dimensions. 
+//tileRegion specifies the size of the region to "tile over", a larger value 
+//means it will take longer for the noise to repeat. y, z and tileRedion are optional parameters.
 double noiseTiled = perlin.NoiseTiled(x, y, z, tileRegion);
 
-//Samples the standard noise functions multiple times and adds the results together. Each sample is sampled at a higher frequency and lower amplitude, adding more and smaller features to the noise. numberOfOctaves determines how many times to sample the standard noise function. lacunarity specifies how quickly the frequency increases. persistence specifies how quickly the amplitude of consecutive samples decreases. All parameters except x are optional.
+//Samples the standard noise functions multiple times and adds the results together. 
+//Each sample is sampled at a higher frequency and lower amplitude, adding more 
+//and smaller features to the noise. numberOfOctaves determines how many times to 
+//sample the standard noise function. lacunarity specifies how quickly the frequency increases. 
+//persistence specifies how quickly the amplitude of consecutive samples decreases. 
+//All parameters except x are optional.
 double noiseOctaves = perlin.NoiseOctaves(x, y, z, numberOfOctaves, lacunarity, persistence);
 
-//Combines the Octaves and Tiled nosise functions to create tilable noise that consists of multiple octaves.
+//Combines the Octaves and Tiled nosise functions to create tilable noise that 
+//consists of multiple octaves.
 double noiseTiledOctaves = perlin.noiseTiledOctaves(x, y, z, tileRegion, numberOfOctaves, lacunarity, persistence);
 
 ```
