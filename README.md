@@ -49,15 +49,15 @@ Color GetColor = (color)=>{
 
 # Difference between Perlin noise and random values (1d)
 Random noise:
-![](/Random-noise1d.png?raw=true "250 random values.")
+![](/images/Random-noise1d.png?raw=true "250 random values.")
 Perlin noise:
-![](/Perlin-noise1d.png?raw=true "250 Perlin noise values")
+![](/images/Perlin-noise1d.png?raw=true "250 Perlin noise values")
 
 # Grayscale Perlin noise in 2d, 1 octave
-![](/Noise-image.png?raw=true "Grayscale 2d Perlin noise, one octave.")
+![](/images/Noise-image.png?raw=true "Grayscale 2d Perlin noise, one octave.")
 
 # Grayscale Perlin noise in 2d, 6 octaves
-![](/NoiseOctaves-image.png?raw=true "Grayscale 2d Perlin noise, 6 octaves.")
+![](/images/NoiseOctaves-image.png?raw=true "Grayscale 2d Perlin noise, 6 octaves.")
 
 
 ## Features
