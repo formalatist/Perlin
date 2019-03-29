@@ -73,7 +73,7 @@ To use the noise functions you have to create an instance of the Perlin class. B
 ```C#
 Perlin perlin = new Perlin();
 
-//Standard noise, provide the x, y and z coordinate to sample the noise func. 
+//Standard noise, provide the x, y and z coordinate to sample the noise function. 
 //y and z are optional parameters.
 double noise = perlin.Noise(x, y, z);
 
