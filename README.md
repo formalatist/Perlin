@@ -5,7 +5,7 @@ This is a C# implementation of Perlins original noise algorithm. It gives contin
 This project was created because i needed a good Perlin noise class for art creation and since the algorithm is simple enough i decided to implement it myself.
  
 ## Screenshots
-# Using 2d noise to create a "world map"
+### Using 2d noise to create a "world map"
 ![](/images/WorldMap-image.png?raw=true "2D world map created using noise with multiple octaves.")
 
 Code for creating the above 2d map:
@@ -44,10 +44,10 @@ Color GetColor = (color)=>{
 			}
 		};
 ```
-# 3d noise being used to create a globe
+### 3d noise being used to create a globe
 ![](/images/out.gif?raw=true "A 3d spinning globe, where light reflects of the ocean.")
 
-# Difference between Perlin noise and random values (1d)
+### Difference between Perlin noise and random values (1d)
 Random noise:
 
 ![](/images/Random-noise1d.png?raw=true "250 random values.")
@@ -56,10 +56,10 @@ Perlin noise:
 
 ![](/images/Perlin-noise1d.png?raw=true "250 Perlin noise values")
 
-# Grayscale Perlin noise in 2d, 1 octave
+### Grayscale Perlin noise in 2d, 1 octave
 ![](/images/Noise-image.png?raw=true "Grayscale 2d Perlin noise, one octave.")
 
-# Grayscale Perlin noise in 2d, 6 octaves
+### Grayscale Perlin noise in 2d, 6 octaves
 ![](/images/NoiseOctaves-image.png?raw=true "Grayscale 2d Perlin noise, 6 octaves.")
 
 
@@ -92,7 +92,7 @@ double noiseOctaves = perlin.NoiseOctaves(x, y, z, numberOfOctaves, lacunarity, 
 
 //Combines the Octaves and Tiled nosise functions to create tilable noise that 
 //consists of multiple octaves.
-double noiseTiledOctaves = perlin.noiseTiledOctaves(x, y, z, tileRegion, numberOfOctaves, lacunarity, persistence);
+double noiseTiledOctaves = perlin.NoiseTiledOctaves(x, y, z, tileRegion, numberOfOctaves, lacunarity, persistence);
 
 ```
 
