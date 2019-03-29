@@ -5,7 +5,7 @@ This is a C# implementation of Perlins original noise algorithm. It gives contin
 This project was created because i needed a good Perlin noise class for art creation and since the algorithm is simple enough i decided to implement it myself.
  
 ## Screenshots
-![](/images/WorldMap-image.png?raw=true "2D world map created using noise with multiple octaves")
+![](/images/WorldMap-image.png?raw=true "2D world map created using noise with multiple octaves.")
 
 ```C#
 Bitmap bitmap = new Bitmap(size, size);
@@ -22,6 +22,8 @@ for(int x = 0; x < size; x++) {
 }
 bitmap.Save("images/WorldMap image.png");
 ```
+
+![](/images/out.gif?raw=true "A 3d spinning globe, where light reflects of the ocean.")
 
 ## Features
 The base Perlin class is generic over Gradient data types and Dot product implementations. Noise functions are often used in performance critical applications where providing custom implementations for these are usefull. A different implementation of Gradient and Dot product can be found in 
